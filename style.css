@@ -4,13 +4,14 @@
     --background-color: hsl(224,26%,31%);
     --screen-color: hsl(224,35%,15%);
     --font-color: hsl(0, 0%, 100%);
+    --font-extra-color: hsl(237,12%,30%);
     --keypad-color: hsl(223, 31%, 20%);
-    --key1-color: hsl(225, 21%, 49%);
-    --key1-shadow: hsl(224, 28%, 35%);
+    --key3-color: hsl(225, 21%, 49%);
+    --key3-shadow: hsl(224, 28%, 35%);
     --key2-color: hsl(6, 63%, 50%);
     --key2-shadow: hsl(6, 70%, 34%);
-    --key3-color: hsl(30, 25%, 89%);
-    --key3-shadow: hsl(28, 16%, 65%);
+    --key1-color: hsl(30, 25%, 89%);
+    --key1-shadow: hsl(28, 16%, 65%);
 }
 
 * {
@@ -86,6 +87,10 @@ h2 {
     margin: 0.5rem 0;
 }
 
+.result {
+    min-height: 45px;
+}
+
 /* Buttons */
 
 .buttons {
@@ -107,13 +112,14 @@ h2 {
 
 .btn.number, .btn.operator {
     background-color: var(--key1-color);
-    color: hsl(237,12%,30%);
+    color: var(--font-extra-color);
     box-shadow: 0 0.13rem 0 var(--key1-shadow);
 }
 
 .btn.function {
-    background-color: var(--key2-color);
-    box-shadow: 0 0.13rem 0 var(--key2-shadow);
+    background-color: var(--key3-color);
+    box-shadow: 0 0.13rem 0 var(--key3-shadow);
+    color: hsl(0, 0%, 100%);
 }
 
 .btn.reset {
@@ -122,8 +128,8 @@ h2 {
 
 .btn.equal {
     grid-column: -3/-1;
-    background-color: var(--key3-color);
-    box-shadow: 0 0.13rem 0 var(--key3-shadow);
+    background-color: var(--key2-color);
+    box-shadow: 0 0.13rem 0 var(--key2-shadow);
 }
 
 /* Radio button */
@@ -184,4 +190,6 @@ h2 {
     opacity: 1;
 }
 
-
+* {
+    transition: background-color 1s ease, color 1s linear, box-shadow 1s linear;
+}

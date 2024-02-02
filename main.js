@@ -1,57 +1,138 @@
-const inputs = document.querySelectorAll('input')
-const inputsArray = Array.from(inputs)
-const rootStyle = document.documentElement.style
+const numbers = document.querySelectorAll('.number')
+const operators = document.querySelectorAll('.operator')
+const equalBtn = document.querySelector('.equal')
+const resetBtn = document.querySelector('.reset')
+const deleteBtn = document.querySelector('.delete')
+const screen = document.querySelector(".result")
+const numbersArray = Array.from(numbers)
+const operatorsArray = Array.from(operators)
 
-const changeTheme = (index) => {
-    let bgColor, scColor, fontColor
-    switch(index){
-        case 0:
-            bgColor = "hsl(224,26%,31%)"
-            scColor = "hsl(224,35%,15%)"
-            fontColor = "hsl(0, 0%, 100%)"
-            keypadColor = "hsl(223, 31%, 20%)"
-            key1Color = "hsl(225, 21%, 49%)"
-            key1Shadow = "hsl(224, 28%, 35%)"
-            key2Color = "hsl(6, 63%, 50%)"
-            key2Shadow = "hsl(6, 70%, 34%)"
-            key3Color = "hsl(30, 25%, 89%)"
-            key3Shadow = "hsl(28, 16%, 65%)"
+let finNumber = "";
+let screenNumber = "";
+let dotCounter = 0;
+let zeroCounter = 0;
+let order = [];
+
+const printNumber = (event, number) => {
+    event.preventDefault()
+    if (number==="." && dotCounter===0) {
+        dotCounter++
+        if (finNumber.length===0)
+            number="0."
+    }
+    else if (number==="." && finNumber.length > 1 ) return
+
+    if (number==="0" && dotCounter===0 && zeroCounter>0 && finNumber.length===1) return
+    else if (number==="0") zeroCounter++
+    else if (number!=="." && finNumber==="0") {
+        dotCounter++
+        number=`.${number}`
+    }
+
+    if ((finNumber.length % 3 == 0) && (finNumber.length > 2) && (dotCounter === 0)){
+        screenNumber+=","
+    }
+
+    finNumber+=number
+    screenNumber+=number
+    screen.innerHTML=screenNumber
+}
+
+const operate = (event, operator) => {
+    event.preventDefault()
+    switch(operator){
+        case "+":
+            order.push(finNumber)
+            finNumber = ""
+            screenNumber = ""
+            dotCounter = 0;
+            order.push("+")
+            screen.innerHTML=""
             break
-        case 1:
-            bgColor = "hsl(0, 0%, 90%)"
-            scColor = "hsl(0, 0%, 93%)"
-            fontColor = "hsl(60, 10%, 19%)"
-            keypadColor = "hsl(0, 5%, 81%)"
-            key1Color = "hsl(185, 42%, 37%)"
-            key1Shadow = "hsl(185, 58%, 25%)"
-            key2Color = "hsl(25, 98%, 40%)"
-            key2Shadow = "hsl(25, 99%, 27%)"
-            key3Color = "hsl(45, 7%, 89%)"
-            key3Shadow = "hsl(35, 11%, 61%)"
+        case "-":
+            order.push(finNumber)
+            finNumber = ""
+            screenNumber = ""
+            dotCounter = 0;
+            order.push("-")
+            screen.innerHTML=""
             break
-        case 2:
-            console.log(2)
+        case "x":
+            order.push(finNumber)
+            finNumber = ""
+            screenNumber = ""
+            dotCounter = 0;
+            order.push("x")
+            screen.innerHTML=""
+            break
+        case "/":
+            order.push(finNumber)
+            finNumber = ""
+            screenNumber = ""
+            dotCounter = 0;
+            order.push("/")
+            screen.innerHTML=""
             break
     }
-    changeColors(bgColor, scColor, fontColor, keypadColor, key1Color, key1Shadow, key2Color, key2Shadow, key3Color, key3Shadow)
 }
 
-changeColors = (bgColor, scColor, fontColor, keypadColor, key1Color, key1Shadow, key2Color, key2Shadow, key3Color, key3Shadow) => {
-    rootStyle.setProperty('--background-color', bgColor);
-    rootStyle.setProperty('--screen-color', scColor);
-    rootStyle.setProperty('--font-color', fontColor);
-    rootStyle.setProperty('--keypad-color', keypadColor);
-    rootStyle.setProperty('--key1-color', key1Color);
-    rootStyle.setProperty('--key1-shadow', key1Shadow);
-    rootStyle.setProperty('--key2-color', key2Color);
-    rootStyle.setProperty('--key2-shadow', key2Shadow);
-    rootStyle.setProperty('--key3-color', key3Color);
-    rootStyle.setProperty('--key3-shadow', key3Shadow);
+const result = (event) => {
+    event.preventDefault()
+    order.push(finNumber)
+    let fin=parseFloat(order[0]);
+    for (let i=1; i< order.length-1; i+=2) {
+        step=order[i];
+        switch(step){
+            case "+":
+                fin+=parseFloat(order[i+1])
+                break
+            case "-":
+                fin-=order[i+1]
+                break
+            case "x":
+                fin*=order[i+1]
+                break
+            case "/":
+                fin/=order[i+1]
+                break
+        }
+    }
+    finNumber=fin
+    screenNumber=fin
+    screen.innerHTML=`${fin}`
+    order=[]
 }
 
-for (let i=0; i<=2; i++) {
-    console.log(i)
-    inputsArray[i].addEventListener("change", () => {
-        changeTheme(i)
+numbersArray.forEach(btn => {
+    btn.addEventListener("click", () => {
+        printNumber(event, btn.innerHTML);
     })
-}
+})
+
+operatorsArray.forEach(btn => {
+    btn.addEventListener("click", () => {
+        operate(event, btn.innerHTML);
+    })
+})
+
+equalBtn.addEventListener("click", () => {
+    result(event);
+})
+
+resetBtn.addEventListener("click", (event) => {
+    event.preventDefault()
+    finNumber=""
+    screenNumber=""
+    screen.innerHTML=""
+    dotCounter = 0;
+    order=[]
+})
+
+deleteBtn.addEventListener("click", (event) => {
+    event.preventDefault()
+    finNumber=finNumber.slice(0, finNumber.length-1)
+    console.log(finNumber.length-1, finNumber.length)
+    screenNumber=finNumber
+    screen.innerHTML=screenNumber
+    console.log(finNumber)
+})
