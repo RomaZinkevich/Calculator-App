@@ -97,6 +97,7 @@ const result = (event) => {
                 break
         }
     }
+    //Make it all string
     finNumber=fin
     screenNumber=fin
     screen.innerHTML=`${fin}`
