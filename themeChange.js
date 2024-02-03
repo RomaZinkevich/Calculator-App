@@ -67,3 +67,26 @@ for (let i=0; i<=2; i++) {
         changeTheme(i)
     })
 }
+
+document.addEventListener('keydown', function(event) {
+    if (event.key==="ё") secret()
+})
+
+
+function secret() {
+    bgColor = "hsl(224,26%,100%)"
+    scColor = "hsl(35,100%,50%)"
+    fontColor = "hsl(35, 100%, 50%)"
+    extrafontColor = "hsl(35,100%,50%)"
+    keypadColor = "hsl(35, 100%, 63%)"
+    key1Color = "hsl(30, 25%, 89%)"
+    key1Shadow = "hsl(28, 16%, 65%)"
+    key2Color = "hsl(80, 63%, 50%)"
+    key2Shadow = "hsl(30, 70%, 34%)"
+    key3Color = "hsl(35, 100%, 33%)"
+    key3Shadow = "hsl(35, 100%, 20%)"
+
+    changeColors(bgColor, scColor, fontColor, keypadColor, key1Color, key1Shadow, key2Color, key2Shadow, key3Color, key3Shadow, extrafontColor)
+
+    document.querySelector("h2").innerHTML="Secret"
+}
