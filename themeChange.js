@@ -76,7 +76,7 @@ document.addEventListener('keydown', function(event) {
 function secret() {
     bgColor = "hsl(224,26%,100%)"
     scColor = "hsl(35,100%,50%)"
-    fontColor = "hsl(35, 100%, 50%)"
+    fontColor = "hsl(0, 0%, 100%)"
     extrafontColor = "hsl(35,100%,50%)"
     keypadColor = "hsl(35, 100%, 63%)"
     key1Color = "hsl(30, 25%, 89%)"
