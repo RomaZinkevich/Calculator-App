@@ -11,73 +11,64 @@ let finNumber = "";
 let screenNumber = "";
 let dotCounter = 0;
 let zeroCounter = 0;
+let minusCounter = 0;
 let order = [];
 
 const printNumber = (event, number) => {
     event.preventDefault()
     if (number==="." && dotCounter===0) {
         dotCounter++
-        if (finNumber.length===0)
+        if (finNumber.length===0 || (finNumber==="-"))
             number="0."
     }
     else if (number==="." && finNumber.length > 1 ) return
 
-    if (number==="0" && dotCounter===0 && zeroCounter>0 && finNumber.length===1) return
-    else if (number==="0") zeroCounter++
-    else if (number!=="." && finNumber==="0") {
+    if (number!=="." && (finNumber==="0" || finNumber==="-0")) {
         dotCounter++
         number=`.${number}`
     }
 
-    if ((finNumber.length % 3 == 0) && (finNumber.length > 2) && (dotCounter === 0)){
-        screenNumber+=","
-    }
+    if ((number==="0" && dotCounter===0 && zeroCounter>0 && finNumber.length===1) || finNumber.length>11) return
+    else if (number==="0") zeroCounter++
 
     finNumber+=number
-    screenNumber+=number
-    screen.innerHTML=screenNumber
+    toScreenNum()
 }
 
 const operate = (event, operator) => {
     event.preventDefault()
+    console.log()
+    if (screenNumber==="" && operator==="-" && minusCounter===0) {
+        finNumber+="-";
+        minusCount();
+        toScreenNum();
+        return;
+    }
+    if (screenNumber==="" || screenNumber==="-") return;
     switch(operator){
         case "+":
             order.push(finNumber)
-            finNumber = ""
-            screenNumber = ""
-            dotCounter = 0;
             order.push("+")
-            screen.innerHTML=""
             break
         case "-":
             order.push(finNumber)
-            finNumber = ""
-            screenNumber = ""
-            dotCounter = 0;
             order.push("-")
-            screen.innerHTML=""
             break
         case "x":
             order.push(finNumber)
-            finNumber = ""
-            screenNumber = ""
-            dotCounter = 0;
             order.push("x")
-            screen.innerHTML=""
             break
         case "/":
             order.push(finNumber)
-            finNumber = ""
-            screenNumber = ""
-            dotCounter = 0;
             order.push("/")
-            screen.innerHTML=""
             break
     }
+    reset();
 }
 
 const result = (event) => {
     event.preventDefault()
+    if (screenNumber==="") return;
     order.push(finNumber)
     let fin=parseFloat(order[0]);
     for (let i=1; i< order.length-1; i+=2) {
@@ -85,22 +76,36 @@ const result = (event) => {
         switch(step){
             case "+":
                 fin+=parseFloat(order[i+1])
+                fin=parseFloat(fin.toFixed(11))
                 break
             case "-":
                 fin-=order[i+1]
+                fin=parseFloat(fin.toFixed(11))
                 break
             case "x":
                 fin*=order[i+1]
                 break
             case "/":
+                if (order[i+1]==="0") {
+                    alert("Dudolnyi gomogay?")
+                    fin=""
+                    i=order.length
+                    break
+                }
                 fin/=order[i+1]
                 break
         }
     }
-    //Make it all string
-    finNumber=fin
-    screenNumber=fin
-    screen.innerHTML=`${fin}`
+    finNumber=String(fin)
+    if (finNumber.length>11 || finNumber.includes("e")) {
+        console.log(finNumber)
+        finNumber=""
+        alert("Result can't fit in the screen")
+    }
+    zeroCount()
+    dotCount()
+    minusCount()
+    toScreenNum()
     order=[]
 }
 
@@ -122,18 +127,64 @@ equalBtn.addEventListener("click", () => {
 
 resetBtn.addEventListener("click", (event) => {
     event.preventDefault()
-    finNumber=""
-    screenNumber=""
-    screen.innerHTML=""
-    dotCounter = 0;
-    order=[]
+    reset();
+    order=[];
 })
 
 deleteBtn.addEventListener("click", (event) => {
     event.preventDefault()
     finNumber=finNumber.slice(0, finNumber.length-1)
-    console.log(finNumber.length-1, finNumber.length)
-    screenNumber=finNumber
-    screen.innerHTML=screenNumber
-    console.log(finNumber)
+    zeroCount()
+    dotCount()
+    minusCount()
+    toScreenNum()
 })
+
+function reset() {
+    finNumber = "";
+    screenNumber = "";
+    dotCounter = 0;
+    zeroCounter = 0;
+    minusCounter = 0;
+    screen.innerHTML=""
+}
+
+function zeroCount() {
+    zeroCounter=0
+    for (let i = 0; i < finNumber.length; i++) {
+        if (finNumber[i] === '0') {
+          zeroCounter++;
+        }
+    }
+}
+
+function dotCount() {
+    dotCounter=0
+    for (let i = 0; i < finNumber.length; i++) {
+        if (finNumber[i] === '.') {
+            dotCounter++;
+            break
+        }
+    }
+}
+
+function minusCount() {
+    minusCounter = 0
+    for (let i = 0; i < finNumber.length; i++) {
+        if (finNumber[i] === '-') {
+            minusCounter++;
+            break
+        }
+    }
+}
+
+function toScreenNum() {
+    screenNumber=""
+    let j=0
+    for (let i=finNumber.length-1; i >= 0; i--) {
+        j++
+        screenNumber = finNumber[i] + screenNumber
+        if (j%3===0 && finNumber.length>j && dotCounter===0 && finNumber[i-1]!=="-") screenNumber = "," + screenNumber
+    }
+    screen.innerHTML = screenNumber
+}
