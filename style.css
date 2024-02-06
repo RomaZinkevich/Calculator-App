@@ -34,6 +34,7 @@ body {
 }
 
 .container {
+    min-width: 700px;
     width: 40%;
     margin: auto;
     display: flex;
@@ -101,6 +102,7 @@ h2 {
     text-align: center;
     padding: 0.8rem;
     border-radius: 0.5rem;
+    width: 100%;
 }
 
 .btn {
@@ -108,6 +110,7 @@ h2 {
     padding-bottom: 0.4rem;
     width: 100%;
     border-radius: 0.5rem;
+    height: 100%;
 }
 
 .btn.number, .btn.operator {
@@ -192,4 +195,52 @@ h2 {
 
 * {
     transition: background-color 1s ease, color 1s linear, box-shadow 1s linear;
+}
+
+
+@media(max-width:770px) {
+    .container {
+        width: 90%;
+        min-width: 0;
+    }
+
+    .buttons {
+        grid-gap:0.3rem;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+        border-radius: 0.3rem;
+        padding-top: 40%;
+        padding-bottom: 20%;
+    }
+
+    .btn.function {
+        font-size: 35px;
+    }
+
+    .btn.reset, .btn.equal {
+        aspect-ratio: 2/1;
+        padding-top: 20%;
+    }
+}
+
+@media(max-width:400px){
+    .buttons{
+        padding: 0.3rem;
+    }
+
+    .btn{
+        padding: 0.1rem 0;
+    }
+}
+
+@media(max-width:300px){
+    .btn{
+        padding-bottom: 0.2rem;
+        font-size: 36px;
+    }
 }
