@@ -87,7 +87,7 @@ const result = (event) => {
                 break
             case "/":
                 if (order[i+1]==="0") {
-                    alert("Dudolnyi gomogay?")
+                    alert("You can't divide by zero")
                     fin=""
                     i=order.length
                     break
@@ -97,10 +97,14 @@ const result = (event) => {
         }
     }
     finNumber=String(fin)
-    if (finNumber.length>11 || finNumber.includes("e")) {
+    if (finNumber.length>11) {
         console.log(finNumber)
-        finNumber=""
-        alert("Result can't fit in the screen")
+        if (finNumber<0){
+            finNumber=finNumber.slice(0,11)
+        }
+        else {
+            finNumber=parseFloat(finNumber).toExponential()
+        }
     }
     zeroCount()
     dotCount()

@@ -3,6 +3,7 @@ const inputsArray = Array.from(inputs)
 const rootStyle = document.documentElement.style
 
 const changeTheme = (index) => {
+    document.querySelector("h2").innerHTML="THEME"
     let bgColor, scColor, fontColor
     switch(index){
         case 0:
