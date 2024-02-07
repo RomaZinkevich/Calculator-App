@@ -113,6 +113,11 @@ h2 {
     height: 100%;
 }
 
+.btn:active, .btn.operator:active{
+    filter: brightness(140%);
+    transition: background-color 0.1s;
+}
+
 .btn.number, .btn.operator {
     background-color: var(--key1-color);
     color: var(--font-extra-color);
@@ -236,6 +241,13 @@ h2 {
     .btn{
         padding: 0.1rem 0;
     }
+
+    .btn.function {
+        font-size: 25px;
+    }
+
+    .btn {font-size: 24px;}
+
 }
 
 @media(max-width:300px){
