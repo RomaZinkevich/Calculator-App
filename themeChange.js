@@ -1,10 +1,17 @@
+import { gsap } from "./node_modules/gsap/all.js";
+
+let positionX = 0;
+
 const inputs = document.querySelectorAll('input')
 const inputsArray = Array.from(inputs)
 const rootStyle = document.documentElement.style
 
 const changeTheme = (index) => {
     document.querySelector("h2").innerHTML="THEME"
-    let bgColor, scColor, fontColor
+    movementAnimation(index)
+    let bgColor, scColor, fontColor, keypadColor, key1Color
+    let key1Shadow, key2Color, key2Shadow, key3Color
+    let key3Shadow, extrafontColor
     switch(index){
         case 0:
             bgColor = "hsl(224,26%,31%)"
@@ -49,7 +56,7 @@ const changeTheme = (index) => {
     changeColors(bgColor, scColor, fontColor, keypadColor, key1Color, key1Shadow, key2Color, key2Shadow, key3Color, key3Shadow, extrafontColor)
 }
 
-changeColors = (bgColor, scColor, fontColor, keypadColor, key1Color, key1Shadow, key2Color, key2Shadow, key3Color, key3Shadow, extrafontColor) => {
+function changeColors(bgColor, scColor, fontColor, keypadColor, key1Color, key1Shadow, key2Color, key2Shadow, key3Color, key3Shadow, extrafontColor) {
     rootStyle.setProperty('--background-color', bgColor);
     rootStyle.setProperty('--screen-color', scColor);
     rootStyle.setProperty('--font-color', fontColor);
@@ -74,18 +81,31 @@ document.addEventListener('keydown', function(event) {
 })
 
 
+function movementAnimation(index){
+    let x=0;
+    if (index>positionX){
+        x=-110;
+    }
+    else {
+        x=110
+    }
+    x=`${x*Math.abs(positionX-index)}%`
+    positionX=index
+    gsap.from(`.radio-container:nth-of-type(${index+1}) .checkmark`, {duration:0.5, x: x, ease: "none"})
+}
+
 function secret() {
-    bgColor = "hsl(224,26%,100%)"
-    scColor = "hsl(35,100%,50%)"
-    fontColor = "hsl(35, 100%, 33%)"
-    extrafontColor = "hsl(35,100%,50%)"
-    keypadColor = "hsl(35, 100%, 63%)"
-    key1Color = "hsl(30, 25%, 89%)"
-    key1Shadow = "hsl(28, 16%, 65%)"
-    key2Color = "hsl(80, 63%, 50%)"
-    key2Shadow = "hsl(30, 70%, 34%)"
-    key3Color = "hsl(35, 100%, 33%)"
-    key3Shadow = "hsl(35, 100%, 20%)"
+    let bgColor = "hsl(224,26%,100%)"
+    let scColor = "hsl(35,100%,50%)"
+    let fontColor = "hsl(35, 100%, 33%)"
+    let extrafontColor = "hsl(35,100%,50%)"
+    let keypadColor = "hsl(35, 100%, 63%)"
+    let key1Color = "hsl(30, 25%, 89%)"
+    let key1Shadow = "hsl(28, 16%, 65%)"
+    let key2Color = "hsl(80, 63%, 50%)"
+    let key2Shadow = "hsl(30, 70%, 34%)"
+    let key3Color = "hsl(35, 100%, 33%)"
+    let key3Shadow = "hsl(35, 100%, 20%)"
 
     changeColors(bgColor, scColor, fontColor, keypadColor, key1Color, key1Shadow, key2Color, key2Shadow, key3Color, key3Shadow, extrafontColor)
 
