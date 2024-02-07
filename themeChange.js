@@ -1,5 +1,3 @@
-import { gsap } from "./node_modules/gsap/all.js";
-
 let positionX = 0;
 
 const inputs = document.querySelectorAll('input')
