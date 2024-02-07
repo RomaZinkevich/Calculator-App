@@ -181,7 +181,7 @@ h2 {
 
 .radios .checkmark {
     position: absolute;
-    top: 0;
+    top: -1px;
     left:0;
     height: 100%;
     aspect-ratio: 1/1;
