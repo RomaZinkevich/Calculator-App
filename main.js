@@ -37,7 +37,6 @@ const printNumber = (event, number) => {
 
 const operate = (event, operator) => {
     event.preventDefault()
-    console.log()
     if (screenNumber==="" && operator==="-" && minusCounter===0) {
         finNumber+="-";
         minusCount();
@@ -103,7 +102,7 @@ const result = (event) => {
             finNumber=finNumber.slice(0,11)
         }
         else {
-            finNumber=parseFloat(finNumber).toExponential()
+            finNumber=parseFloat(finNumber).toExponential(7)
         }
     }
     zeroCount()
@@ -137,12 +136,40 @@ resetBtn.addEventListener("click", (event) => {
 
 deleteBtn.addEventListener("click", (event) => {
     event.preventDefault()
-    finNumber=finNumber.slice(0, finNumber.length-1)
-    zeroCount()
-    dotCount()
-    minusCount()
-    toScreenNum()
+    deleteBtnEvent()
 })
+
+function deleteBtnEvent() {
+    if (screenNumber && screenNumber.length!==0) {
+        finNumber=String(parseFloat(finNumber))
+        if (finNumber.length===1) {
+            finNumber=""
+            zeroCount()
+            dotCount()
+            minusCount()
+            toScreenNum()
+            return
+        }
+        else finNumber=finNumber.slice(0, finNumber.length-1)
+        console.log(finNumber)
+        zeroCount()
+        dotCount()
+        minusCount()
+        finNumber=Number.parseFloat(finNumber)
+        if (finNumber>99999999999)
+            finNumber=finNumber.toExponential(7);
+        finNumber=String(finNumber)
+        toScreenNum()
+    }
+    else if (order.length!==0){
+        order.pop()
+        finNumber=order.pop()
+        zeroCount()
+        dotCount()
+        minusCount()
+        toScreenNum()
+    }
+}
 
 function reset() {
     finNumber = "";
@@ -150,7 +177,7 @@ function reset() {
     dotCounter = 0;
     zeroCounter = 0;
     minusCounter = 0;
-    screen.innerHTML=""
+    screen.innerHTML = "";
 }
 
 function zeroCount() {
@@ -188,7 +215,7 @@ function toScreenNum() {
     for (let i=finNumber.length-1; i >= 0; i--) {
         j++
         screenNumber = finNumber[i] + screenNumber
-        if (j%3===0 && finNumber.length>j && dotCounter===0 && finNumber[i-1]!=="-") screenNumber = "," + screenNumber
+        if (j%3===0 && finNumber.length>j && dotCounter===0 && finNumber[i-1]!=="-" && !(finNumber.includes("e"))) screenNumber = "," + screenNumber
     }
     screen.innerHTML = screenNumber
 }
