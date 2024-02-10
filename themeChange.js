@@ -76,6 +76,7 @@ for (let i=0; i<=2; i++) {
 
 document.addEventListener('keydown', function(event) {
     if (event.key==="ё") secret()
+    else if (event.key==="T") tamk()
 })
 
 
@@ -108,4 +109,22 @@ function secret() {
     changeColors(bgColor, scColor, fontColor, keypadColor, key1Color, key1Shadow, key2Color, key2Shadow, key3Color, key3Shadow, extrafontColor)
 
     document.querySelector("h2").innerHTML="Secret"
+}
+
+function tamk() {
+    let bgColor = "hsl(285.1deg 31.69% 89.84%)";
+    let scColor = "hsl(273, 70%, 50%)";
+    let fontColor = "hsl(0,0%,0%)";
+    let extrafontColor = "hsl(0, 0%, 100%)";
+    let keypadColor = "hsl(273, 70%, 50%)";
+    let key1Color = "hsl(273, 40%, 70%)";
+    let key1Shadow = "hsl(273, 20%, 40%)";
+    let key2Color = "hsl(223, 63%, 50%)";
+    let key2Shadow = "hsl(223, 70%, 34%)";
+    let key3Color = "hsl(273, 100%, 33%)";
+    let key3Shadow = "hsl(273, 100%, 20%)";
+
+    changeColors(bgColor, scColor, fontColor, keypadColor, key1Color, key1Shadow, key2Color, key2Shadow, key3Color, key3Shadow, extrafontColor)
+
+    document.querySelector("h2").innerHTML="TAMK"
 }
