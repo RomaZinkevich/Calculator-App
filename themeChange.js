@@ -4,9 +4,33 @@ const inputs = document.querySelectorAll('input');
 const inputsArray = Array.from(inputs);
 const rootStyle = document.documentElement.style;
 
+document.addEventListener('DOMContentLoaded', function() {
+    let themeIndex = parseInt(localStorage.getItem('userTheme'));
+    switch(themeIndex){
+        case 0:
+        case 1:
+        case 2:
+            changeTheme(themeIndex);
+            break;
+        case 3:
+            secret();
+            break;
+        case 4:
+            tamk();
+            break;
+        default:
+            break;
+    }
+});
+
 const changeTheme = (index) => {
+    localStorage.setItem("userTheme", index);
     document.querySelector("h2").innerHTML="THEME";
     movementAnimation(index);
+    for (let i=0; i<3; i++){
+        inputs[i].checked=false
+    }
+    inputs[index].checked=true
     let bgColor, scColor, fontColor, keypadColor, key1Color;
     let key1Shadow, key2Color, key2Shadow, key3Color;
     let key3Shadow, extrafontColor;
@@ -94,6 +118,7 @@ function movementAnimation(index){
 }
 
 function secret() {
+    localStorage.setItem("userTheme", 3);
     let bgColor = "hsl(224,26%,100%)";
     let scColor = "hsl(35,100%,50%)";
     let fontColor = "hsl(35, 100%, 33%)";
@@ -112,6 +137,7 @@ function secret() {
 }
 
 function tamk() {
+    localStorage.setItem("userTheme", 4);
     let bgColor = "hsl(285.1deg 31.69% 89.84%)";
     let scColor = "hsl(273, 70%, 50%)";
     let fontColor = "hsl(0,0%,0%)";
