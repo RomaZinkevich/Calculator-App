@@ -142,7 +142,7 @@ deleteBtn.addEventListener("click", (event) => {
 function deleteBtnEvent() {
     if (screenNumber && screenNumber.length!==0) {
         finNumber=String(parseFloat(finNumber));
-        if (finNumber.length===1) {
+        if (finNumber.length===1 || (finNumber.length===2 && finNumber.includes("-")) || finNumber==="NaN") {
             finNumber="";
             zeroCount();
             dotCount();
